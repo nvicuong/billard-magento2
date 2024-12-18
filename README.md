@@ -17,3 +17,6 @@
 ## Notes
 - At the time you start Billard Shop, the features such as "Thời tiết", "Tỉ giá tiền tệ" may no longer work correctly because of the API key.
 - You need to add information about payment methods to use these features.
+
+
+![image alt](https://github.com/nvicuong/billard-magento2/blob/main/billard-shop.png?raw=true)
