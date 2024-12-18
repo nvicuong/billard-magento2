@@ -1,0 +1,48 @@
+services:
+  app:
+    image: kakarazi/magento_app:latest
+    ports:
+      - "80:8000"
+      - "443:8443"
+    volumes:
+      - ./data/sock:/sock:rw
+
+  phpfpm:
+    image: kakarazi/magento_phpfpm:latest
+    env_file: env/phpfpm.env
+    volumes:
+      - ./data/sock:/sock:rw
+
+  db:
+    image: kakarazi/magento_db:latest
+    ports:
+      - "3306:3306"
+    env_file: env/db.env
+
+  redis:
+    image: kakarazi/magento_redis:latest
+    ports:
+      - "6379:6379"
+
+  opensearch:
+    image: kakarazi/magento_opensearch:latest
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    env_file: env/opensearch.env
+    environment:
+      - "discovery.type=single-node"
+      - "cluster.routing.allocation.disk.threshold_enabled=false"
+      - "index.blocks.read_only_allow_delete"
+
+  rabbitmq:
+    image: kakarazi/magento_rabbitmq:latest
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    env_file: env/rabbitmq.env
+
+  mailcatcher:
+    image: kakarazi/magento_mailcatcher:latest
+    ports:
+      - "1080:1080"
