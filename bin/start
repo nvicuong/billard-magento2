@@ -11,4 +11,8 @@ echo "Starting Magento 2, it will take few minutes..."
 
 bin/docker-compose up -d --remove-orphans
 
+bin/docker-compose exec -T phpfpm bin/magento indexer:reindex >/dev/null
+bin/docker-compose exec -T phpfpm bin/magento cache:clean >/dev/null
+bin/docker-compose exec -T phpfpm bin/magento cache:flush >/dev/null
+
 echo "Magento 2 has been started and is now available at http://localhost:80"

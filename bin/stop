@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
 bin/docker-compose stop "$@"
+
+echo "Magento 2 has been stopped, run 'bin/start' to start it again."

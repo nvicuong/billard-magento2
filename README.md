@@ -4,11 +4,13 @@
 - docker version >= 27.3.1
 - docker-compose version >= 8.32
 
-## Step to run mock web at first time
-- bin/init
+## Step to run mock web
+- bin/start
+
+## Step to stop mock web
+- bin/stop
 
 ## bin commands
-- bin/init: init Billard Shop at first time
 - bin/start: run Billard Shop
 - bin/status: show docker-compose status
 - bin/stop: stop Billard Shop
