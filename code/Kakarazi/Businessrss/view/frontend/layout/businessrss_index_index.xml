@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Tin tức Kinh doanh từ VnExpress:</title>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="Kakarazi\Businessrss\Block\Businessrss" name="businessrss_dat" template="Kakarazi_Businessrss::businessrss.phtml"/>
+        </referenceContainer>
+    </body>
+
+</page>

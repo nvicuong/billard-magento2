@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Kakarazi_Weather::weather" title="Weather" translate="title" module="Kakarazi_Weather" sortOrder="0" action="weather" resource="Kakarazi_Weather::weather" parent="Magento_Backend::content"/>
+        <add id="Kakarazi_Weather::new_banner" title="New City Configuration" module="Kakarazi_Weather" action="weather/index/new" resource="Kakarazi_Weather::save" parent="Kakarazi_Weather::weather"/>
+    </menu>
+</config>

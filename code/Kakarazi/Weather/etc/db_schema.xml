@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="kakarazi_weather" resource="default" engine="innodb" comment="City List Table">
+        <column name="city_id" xsi:type="int" unsigned="true" nullable="false" identity="true" comment="City ID"/>
+        <column name="name" xsi:type="varchar" length="255" nullable="true" comment="City Name"/>
+        <column name="code" xsi:type="varchar" length="255" nullable="true" comment="City Code"/>
+        <column name="country" xsi:type="varchar" length="100" nullable="true" comment="Country Code"/>
+        <column name="longitude" xsi:type="double" nullable="false" comment="city longitude"/>
+        <column name="latitude" xsi:type="double" nullable="false" comment="city latitude"/>
+        <column name="current_weather_description" xsi:type="text" nullable="true" comment="Current Weather Description"/>
+        <column name="five_day_weather_forecast_description" xsi:type="text" nullable="true" comment="Three hourly five day weather forecast description"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Popup Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Popup Modification Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="city_id"/>
+        </constraint>
+    </table>
+
+</schema>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Kakarazi\Currency\Helper\Data">
+        <arguments>
+            <argument name="currencyDataFactory" xsi:type="object">Kakarazi\Currency\Model\CurrencyDataFactory</argument>
+        </arguments>
+    </type>
+</config>

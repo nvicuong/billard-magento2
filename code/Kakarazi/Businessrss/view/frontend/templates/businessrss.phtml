@@ -1,0 +1,46 @@
+<?php
+$itemsPerPage = 5;
+$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$rssItems = $block->getRssItems($currentPage);
+$totalItems = $block->getTotalItems();
+$totalPages = ceil($totalItems / $itemsPerPage);
+$locale = 'vi_VN';
+$fmt = new IntlDateFormatter(
+    $locale,
+    IntlDateFormatter::LONG,
+    IntlDateFormatter::SHORT,
+    'Asia/Ho_Chi_Minh',
+    IntlDateFormatter::GREGORIAN
+);
+?>
+
+<div class="container">
+    <div class="row">
+        <?php foreach ($rssItems as $item): ?>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <a href="<?= $item['link'] ?>" target="_blank"><?= htmlspecialchars($item['title']) ?></a>
+                    </h3>
+                    <p class="card-text"><?= $item['description'] ?></p>
+                    <p class="card-text">
+                        <?php $formattedDate = $fmt->format(strtotime($item['pubDate'])); ?>
+                        <small class="text-muted">Phát hành: <?= $formattedDate ?></small>
+                    </p>
+                </div>
+            </div>
+        <hr />
+        <?php endforeach; ?>
+
+    </div>
+
+    <div class="pagination text-center">
+        <?php if ($currentPage > 1): ?>
+            <a href="?page=<?= $currentPage - 1 ?>" class="btn btn-secondary" style="float: left"><strong>Quay lại</strong></a>
+        <?php endif; ?>
+
+        <?php if ($currentPage < $totalPages): ?>
+            <a href="?page=<?= $currentPage + 1 ?>" class="btn btn-secondary" style="float: right;"><strong>Tiếp</strong></a>
+        <?php endif; ?>
+    </div>
+</div>

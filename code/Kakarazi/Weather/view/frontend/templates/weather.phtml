@@ -1,0 +1,292 @@
+<?php
+$citiesWithCountries = $block->getCitiesWithCountries();
+$city = $block->getRequest()->getParam('city');
+$weather = $block->getWeather($city);
+
+// Kiểm tra nếu $weather là null
+if ($weather === null) {
+    echo '<p>Chức năng hiện chưa sẵn sàng</p>';
+    return; // Dừng việc tiếp tục xử lý mã sau đó
+}
+
+// Nếu $weather có dữ liệu, tiếp tục xử lý thời tiết
+try {
+    $currentWeather = json_decode($weather['current_weather_description'], true);
+    $forecastWeather = json_decode($weather['five_day_weather_forecast_description'], true);
+} catch (Exception $e) {
+    echo '<p>Chức năng hiện chưa sẵn sàng</p>';
+    return;
+}
+?>
+
+<?php if ($weather && isset($currentWeather) && isset($forecastWeather) &&isset($currentWeather['main'])): ?>
+    <?php
+    $tempCelsius = $currentWeather['main']['temp'] - 273.15;
+    $tempFeelsLike = $currentWeather['main']['feels_like'] - 273.15;
+    $icon = $currentWeather['weather'][0]['icon'];
+    $description = $currentWeather['weather'][0]['description'];
+
+    $wind = $currentWeather['wind']['speed'];
+    $cloud = $currentWeather['clouds']['all'];
+    $pressure = $currentWeather['main']['pressure'];
+    $humidity = $currentWeather['main']['humidity'];
+    $visibility = $currentWeather['visibility'];
+
+    $sunsetTimestamp = $currentWeather['sys']['sunset'];
+
+    $sunsetDateTime = new DateTime();
+    $sunsetDateTime->setTimestamp($sunsetTimestamp);
+
+    $sunsetDateTime->modify('+7 hours');
+
+    $sunset = $sunsetDateTime->format('H:i:s');
+
+    $sunriseTimestamp = $currentWeather['sys']['sunrise'];
+
+    $sunriseDateTime = new DateTime();
+    $sunriseDateTime->setTimestamp($sunriseTimestamp);
+
+    $sunriseDateTime->modify('+7 hours');
+
+    $sunrise = $sunriseDateTime->format('H:i:s');
+
+    ?>
+<style>
+    #city-form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0 auto;
+        margin-bottom: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+    #city-form label {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    #city-form select {
+        flex-grow: 1;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+    }
+
+    #city-form button {
+        padding: 8px 12px;
+        font-size: 16px;
+        background: linear-gradient(to bottom, #13547a 0%, #80d0c7 100%);;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    #city-form button:hover {
+        background: linear-gradient(to bottom, #13547a 0%, #80d0c7 100%);;
+    }
+
+    #city-form button:active {
+        background: linear-gradient(to bottom, #13547a 0%, #80d0c7 100%);;
+    }
+</style>
+    <div class="weather-container">
+        <form id="city-form" method="get">
+            <label for="city">Select City:</label>
+            <div class="form-group">
+                <select id="city" name="city">
+                    <?php foreach ($citiesWithCountries as $cityWithCountry): ?>
+                        <option value="<?= $cityWithCountry['name'] ?>" <?php if ($city == $cityWithCountry['name']) echo 'selected'; ?>>
+                            <?= $cityWithCountry['name'] ?>, <?= $cityWithCountry['country'] ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <button type="submit">Cập nhật địa điểm</button>
+            </div>
+        </form>
+
+
+        <div class="current-weather-container">
+            <div class="weather-card">
+                <img class="weather-icon" src="https://openweathermap.org/img/wn/<?php echo $icon ?>@2x.png" alt="weather icon">
+                <h1 class="temperature"><?php echo $tempCelsius ?>°C</h1>
+                <p class="feels-like">Cảm giác <?php echo $tempFeelsLike ?>°C</p>
+                <h2></h2>
+            </div>
+            <div class="weather-widget">
+                <div class="widget-block">
+                    <div class="align-center-block">
+                        <img class="widget-icon" src="https://img.icons8.com/fluency-systems-filled/50/FFFFFF/wind.png"
+                             alt="wind icon">
+                        <p class="value"><?php echo $wind ?> m/s</p>
+
+                    </div>
+                    <p class="description">Gió</p>
+                </div>
+                <div class="widget-block">
+                    <div class="align-center-block">
+                        <img class="widget-icon" src="https://img.icons8.com/sf-regular/48/FFFFFF/dew-point.png"
+                             alt="humidity icon">
+                        <p class="value">
+                            <?php echo $humidity ?>%
+                        </p>
+                    </div>
+                    <p class="description">Độ ẩm</p>
+                </div>
+
+                <div class="widget-block">
+                    <div class="align-center-block">
+                        <img class="widget-icon"
+                             src="https://img.icons8.com/material-outlined/24/FFFFFF/visible--v1.png"
+                             alt="visibility icon">
+                        <p class="value
+                        ">
+                            <?php echo $visibility ?> m
+                        </p>
+
+                    </div>
+                    <p class="description">Tầm nhìn</p>
+                </div>
+                <div class="widget-block">
+                    <div class="align-center-block">
+
+                        <img class="widget-icon" src="https://img.icons8.com/ios/50/FFFFFF/cloud--v1.png"
+                             alt="cloud icon">
+                        <p class="value">
+                            <?php echo $cloud ?>%
+                        </p>
+                    </div>
+                    <p class="description">Mây phủ</p>
+                </div>
+                <div class="widget-block">
+                    <div class="align-center-block">
+
+                        <img class="widget-icon" src="https://img.icons8.com/metro/26/FFFFFF/sunrise.png" alt="sun icon">
+                        <p class="value">
+                            <?php echo $sunrise ?>
+                        </p>
+                    </div>
+                    <p class="description">Mặt trời mọc</p>
+                </div>
+                <div class="widget-block">
+                    <div class="align-center-block">
+
+                        <img class="widget-icon" src="https://img.icons8.com/metro/26/FFFFFF/sunset.png" alt="sun icon">
+                        <p class="value">
+                            <?php echo $sunset ?>
+                        </p>
+                    </div>
+                    <p class="description">Mặt trời lặn</p>
+                </div>
+            </div>
+        </div>
+        <div class="forecast-weather-container">
+            <h1>Dự báo mỗi 3 tiếng</h1>
+            <div class="three-hourly-forecast-container">
+                <?php
+                if (isset($forecastWeather['list'])) {
+                    $forecastList = array_slice($forecastWeather['list'], 0, 5);
+                    foreach ($forecastList as $forecast) {
+                        $forecastDateTime = new DateTime();
+                        $forecastDateTime->setTimestamp($forecast['dt']);
+
+                        $forecastDateTime->modify('+7 hours');
+
+                        $forecastTime = $forecastDateTime->format('H:i');
+
+                        $forecastDate = $forecastDateTime->format('m-d');
+
+                        $temperature = round($forecast['main']['temp'] - 273.15);
+
+                        $weatherIcon = $forecast['weather'][0]['icon'];
+                        $weatherDescription = $forecast['weather'][0]['description'];
+
+                        $windSpeed = $forecast['wind']['speed'];
+
+                        echo '<div class="three-hourly-forecast-card">';
+                        echo '<div class="forecast-time">' . $forecastDate . ' ' . $forecastTime . '</div>';
+                        echo '<img class="forecast-icon" src="https://openweathermap.org/img/wn/' . $weatherIcon . '.png" alt="' . $weatherDescription . '">';
+                        echo '<div class="forecast-temperature">' . $temperature . '°C</div>';
+                        echo '<div class="wind">';
+                        echo '<img class="widget-icon" src="https://img.icons8.com/fluency-systems-filled/50/FFFFFF/wind.png" alt="">';
+                        echo '<p>' . $windSpeed . ' m/s</p>';
+                        echo '</div>';
+                        echo '</div>';
+                    }
+                } else {
+                    echo '<p>Không thể dự báo.</p>';
+                }
+                ?>
+
+            </div>
+            <h1>Dự báo 5 ngày tiếp theo</h1>
+            <div class="five-day-forecast-container">
+                <?php
+                if (isset($forecastWeather['list'])) {
+                    $dailyForecasts = [];
+
+                    foreach ($forecastWeather['list'] as $forecast) {
+                        $date = date('Y-m-d', $forecast['dt']);
+
+                        if (!isset($dailyForecasts[$date])) {
+                            $dailyForecasts[$date] = [
+                                'date' => $date,
+                                'temp_max' => $forecast['main']['temp_max'],
+                                'temp_min' => $forecast['main']['temp_min'],
+                                'icon' => $forecast['weather'][0]['icon'],
+                                'wind_speed' => $forecast['wind']['speed']
+                            ];
+                        } else {
+                            if ($forecast['main']['temp_max'] > $dailyForecasts[$date]['temp_max']) {
+                                $dailyForecasts[$date]['temp_max'] = $forecast['main']['temp_max'];
+                            }
+                            if ($forecast['main']['temp_min'] < $dailyForecasts[$date]['temp_min']) {
+                                $dailyForecasts[$date]['temp_min'] = $forecast['main']['temp_min'];
+                            }
+                        }
+                    }
+
+                    $dailyForecastList = array_slice($dailyForecasts, 1, 6);
+
+                    // Hiển thị dự báo cho từng ngày
+                    foreach ($dailyForecastList as $forecast) {
+                        ?>
+                        <div class="five-day-forecast-card">
+                            <p class="five-day-forecast-time"><?php echo $forecast['date']; ?></p>
+                            <div class="forecast-card-border">
+                                <img class="forecast-icon" src="https://openweathermap.org/img/wn/<?php echo $forecast['icon']; ?>.png" alt="weather icon">
+                                <div class="forecast-temperature-max"><?php echo round($forecast['temp_max'] - 273.15); ?>°C</div>
+                                <div class="forecast-temperature-min"><?php echo round($forecast['temp_min'] - 273.15); ?>°C</div>
+                                <div class="wind">
+                                    <img class="widget-icon" src="https://img.icons8.com/fluency-systems-filled/50/FFFFFF/wind.png" alt="">
+                                    <p><?php echo $forecast['wind_speed']; ?> m/s</p>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+<?php else: ?>
+    <p>Chức năng hiện chưa sẵn sàng</p>
+<?php endif; ?>
+
+<link rel="stylesheet" type="text/css" media="all" href="<?= $block->getViewFileUrl('Kakarazi_Weather::css/style.css') ?>">
+<script type="text/javascript" src="<?= $block->getViewFileUrl('Kakarazi_Weather::js/weather.js') ?>"></script>
+
+

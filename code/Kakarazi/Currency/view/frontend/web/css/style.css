@@ -1,0 +1,145 @@
+.weather-container {
+    /* display: flex; */
+    color: white;
+}
+
+.current-weather-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.weather-icon {
+    align-items: center;
+}
+
+.weather-card {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    background: linear-gradient(to bottom, #13547a 0%, #80d0c7 100%);
+}
+
+.weather-card > p {
+    margin: 0;
+}
+
+.widget-block > p {
+    margin: 0;
+}
+
+.align-center-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.widget-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.value {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.weather-widget {
+    display: flex;
+    flex-wrap: wrap;
+    width: 500px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    background: linear-gradient(to bottom, #13547a 0%, #80d0c7 100%);
+    justify-content: center;
+    align-items: center;
+
+    /* gap: 10px; */
+}
+
+.widget-block {
+    flex: 1 1 calc(50% - 10px);
+    box-sizing: border-box;
+    text-align: center;
+    /* padding: 20px; */
+    /* background-color: lightblue; */
+    /* margin: 5px 0; */
+}
+
+.forecast-weather-container {
+    flex: 2;
+}
+
+.three-hourly-forecast-container {
+    display: flex;
+}
+
+.three-hourly-forecast-card {
+    border-radius: 20px;
+    width: 100px;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #13547a 0%, #80d0c7 100%);
+}
+
+
+
+.five-day-forecast-container {
+    display: flex;
+}
+
+.five-day-forecast-card {
+    width: 100px;
+    padding: 10px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.five-day-forecast-card > p {
+    margin: 0;
+}
+
+.forecast-card-border {
+    width: 100px;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, #13547a 0%, #80d0c7 100%);
+}
+
+.wind {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.forecast-weather-container h1 {
+    color: black;
+    border-bottom: 2px solid #13547a;
+    width: fit-content;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.five-day-forecast-time{
+    color: black;
+}
